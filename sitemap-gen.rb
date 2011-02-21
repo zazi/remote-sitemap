@@ -263,8 +263,12 @@ class SitemapGenerator
       else
         # puts '   with status code ' + res.code
         if ! u.index(@main_url).nil?
-          # puts 'found good one ' + u
-          result = [u,res.body.downcase]
+          if res.code == "200"
+            # puts 'found good one ' + u
+            result = [u,res.body.downcase]
+          else
+            puts 'response code ' + res.code
+          end
         else
           result = [dummy,body]
 		    end
