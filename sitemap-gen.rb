@@ -96,9 +96,19 @@ class SitemapGenerator
 			content_a = get_content(url)
 			# puts 'here'
 			if content_a.to_a()[0] != "url"
-		    # puts 'there'
-		    content = content_a.to_a()[1]
+		    # puts 'there with ' + content_a.to_a()[0]
 		    url = content_a.to_a()[0]
+		    content = content_a.to_a()[1]
+		    
+        # don't forget to add the document URI itself
+		    # this is important, if this URI isn't mentioned in the content somewhere
+		    if (! url.index(@main_url).nil?) && content.index(" href=\"")
+		      parsed_url = URI.parse(url)
+		      html_u = parsed_url.scheme + "://" + parsed_url.host + parsed_url.path
+		      puts 'add html document uri ' + html_u
+		      links.add(html_u)
+		    end
+		    
 			  while content.index(" href=\"")
 			    i_href = content.index(" href=\"")
 			    
@@ -113,7 +123,9 @@ class SitemapGenerator
 			        # puts 'add link ' + link
 			        u = URI.parse(link)
 			        document_u = u.scheme + "://" + u.host + u.path
-			        # puts 'add document uri ' + document_u
+			        if ! document_u.index(@main_url).nil?
+			          # puts 'add document uri ' + document_u
+			        end
 			        links.add(document_u)
 			      end
 			    end
@@ -163,6 +175,7 @@ class SitemapGenerator
 		nb_sitemaps_written = 0
 
 		urls.each do |url|
+		  # puts "gen with url " + url
       if ! url.index(@main_url).nil?
         urls_current_sitemap << url
         nb_urls_current_sitemap += 1
@@ -192,10 +205,13 @@ class SitemapGenerator
 			l = next_not_visited(@links, @visited)
 
 			new_links = get_links(l)
+			# puts 'link: ' + l
 
 			if new_links.length > 0
 				@good_links.add(l)
-			
+				
+				# puts 'in new links with ' + l
+				
 				if @view
 					@view.new_link("#{l}")
 				end
@@ -247,7 +263,7 @@ class SitemapGenerator
       else
         # puts '   with status code ' + res.code
         if ! u.index(@main_url).nil?
-          puts 'found good one ' + u
+          # puts 'found good one ' + u
           result = [u,res.body.downcase]
         else
           result = [dummy,body]
@@ -266,7 +282,7 @@ class SitemapGenerator
 	def fix_link(link, current_url)
 
 		# Case when href="some_dir/..." or /...
-		if link.length > 0 && link[0, 7]  != "http://" && link[0, 9] != "https://"
+		if link.length > 0 && link[0, 7] != "http://" && link[0, 9] != "https://"
 			uri = URI.parse(current_url)
 			uri.merge!(link)
 			return uri.to_s
