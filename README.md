@@ -48,3 +48,8 @@ Remote Sitemap Generator version information
 		* `ruby exec-sitemap-gen.rb -u http://smiy.sourceforge.net --without_wget true --verbose true`
 		* please it is important here to use the internal URI derefencing mechanism here to get the real location URL
 	* Note: you can add further main URLs in the main URLs array (@main_urls) in [sitemap-gen.rb](https://github.com/zazi/remote-sitemap/blob/master/sitemap-gen.rb)
+
+PS
+--
+
+The [old project repository location at SourceForge](http://smiy.svn.sourceforge.net/viewvc/smiy/remote-sitemap/) is now deprecated. All new developments will be pushed to this repository location here at GitHub.
