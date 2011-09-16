@@ -40,14 +40,11 @@ Remote Sitemap Generator version information
 	* Date: December 22nd 2010
 	* See also: https://github.com/zazi/remote-sitemap/
 	* Additional features: 
-		* added purl.org (a PURL server) to the main URLs array
+		* added [purl.org](http://purl.org/) (a [PURL](http://en.wikipedia.org/wiki/Persistent_Uniform_Resource_Locator) server) to the main URLs array
 		* handle redirections internally to get the real location URL
 		* stores only sitemap descriptions that are part of the main URL namespace (given by the value of the parameter -u/--url)
 		* stripes down the fragment IDs of URIRefs to boost a bit the crawling process (all URIs are added without fragment ID)
 	* Usage example: 
 		* `ruby exec-sitemap-gen.rb -u http://smiy.sourceforge.net --without_wget true --verbose true`
 		* please it is important here to use the internal URI derefencing mechanism here to get the real location URL
-	* Note: you can add further main URLs in the main URLs array (@main_urls) in sitemap-gen.rb
-	* TODO: 
-		* parametrize the inclusion of further main URLs
-		* calculate a priority value (currently this is statically set to 1.0)
+	* Note: you can add further main URLs in the main URLs array (@main_urls) in [sitemap-gen.rb](https://github.com/zazi/remote-sitemap/blob/master/sitemap-gen.rb)
